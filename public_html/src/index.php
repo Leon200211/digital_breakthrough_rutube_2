@@ -12,7 +12,7 @@ session_start(); //стартуем сессию
 
 
 // отключаем сообщение о предупреждениях
-//error_reporting(0);
+error_reporting(0);
 
 
 require_once 'config.php';  // базовые настройки для хостинга
@@ -38,6 +38,18 @@ if ($_SERVER['REQUEST_URI'] == '/loadVideo') {
 }
 if ($_SERVER['REQUEST_URI'] == '/upload/video/history') {
     $uploadVideo = new \engine\main\controllers\UploadPageHistoryController();
+    $uploadVideo->index();
+    echo $uploadVideo->outputData();
+    exit();
+}
+
+
+if ($_SERVER['REQUEST_URI'] == '/uploadProfile') {
+    $uploadVideo = new \engine\main\controllers\UploadProfileController();
+    $uploadVideo->uploadProfile();
+}
+if ($_SERVER['REQUEST_URI'] == '/upload/profile/history') {
+    $uploadVideo = new \engine\main\controllers\UploadProfileHistoryController();
     $uploadVideo->index();
     echo $uploadVideo->outputData();
     exit();

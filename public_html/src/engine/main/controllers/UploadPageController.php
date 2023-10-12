@@ -63,8 +63,6 @@ class UploadPageController extends BaseController
                     'video' => $fileName,
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
-                    'quality' => $_REQUEST['quality'] === 'true' ? 1 : 0,
-                    'commentary' => $_REQUEST['commentary'] === 'true' ? 1 : 0,
                     'is_processed' => 0
                 ]
             ]);
@@ -80,8 +78,6 @@ class UploadPageController extends BaseController
             $curl = curl_init();
             $aPost = array(
                 'upload_id' => $idNewVideo + 1,
-                'quality_upgrade' => $_REQUEST['quality'] === 'true' ? 1 : 0,
-                'generate_comments' => $_REQUEST['commentary'] === 'true' ? 1 : 0,
             );
             if ((version_compare(PHP_VERSION, '5.5') >= 0)) {
                 $aPost['file'] = new \CURLFile($targetPath);
@@ -114,15 +110,6 @@ class UploadPageController extends BaseController
      */
     public function uploadVideoFromApi(): void
     {
-
-        $data = [
-            'file' => $_FILES,
-            'ruq' => $_REQUEST
-        ];
-        file_put_contents(__DIR__ . '/test2.log', print_r($data, 1), FILE_APPEND);
-
-
-
         if(!$this->model) $this->model = MainModel::getInstance();
         $videoDb = $this->model->read('upload_video', [
            'fields' => ['id', 'video'],

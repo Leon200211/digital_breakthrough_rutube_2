@@ -958,3 +958,43 @@ Fault: 12-10-2023 19:10:22 - Ошибка в SQL запросе: INSERT INTO upl
 file/var/www/html/engine/base/models/BaseModel.php
  In line 71
 
+Fault: 12-10-2023 19:42:25 - Ошибка в SQL запросе: INSERT INTO upload_video (`video`,`name`,`description`,`is_processed`) VALUE ('test_455386.mp4','l;\';l\'l','090','0') - 1364 Field 'quality' doesn't have a default value
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:42:46 - Ошибка в SQL запросе: INSERT INTO upload_video (`video`,`name`,`description`,`is_processed`) VALUE ('test_339841.mp4','ghjghj','ghjghj','0') - 1364 Field 'quality' doesn't have a default value
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:18 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:18 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:19 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:19 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:27 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:43:27 - Ошибка в SQL запросе: SELECT upload_video.`id`,upload_video.`video`,upload_video.`name`,upload_video.`description`,upload_video.`date_create`,upload_video.`quality`,upload_video.`commentary`,upload_video.`is_processed` FROM upload_video   ORDER BY upload_video.id DESC - 1054 Unknown column 'upload_video.quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:51:52 - Ошибка в SQL запросе: INSERT INTO upload_video (`video`,`name`,`description`,`quality`,`commentary`,`is_processed`) VALUE ('test_585197.jpg','','','0','0','0') - 1054 Unknown column 'quality' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+
+Fault: 12-10-2023 19:52:35 - Ошибка в SQL запросе: INSERT INTO upload_profile (`video`,`name`,`description`,`is_processed`) VALUE ('test_772990.jpg','asd','asd','0') - 1054 Unknown column 'video' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 72
+

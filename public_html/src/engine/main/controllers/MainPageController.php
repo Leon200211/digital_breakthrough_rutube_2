@@ -19,7 +19,7 @@ class MainPageController extends BaseController
         if(!$this->model) $this->model = MainModel::getInstance();
 
         $this->videoData = $this->model->read('upload_video', [
-            'fields' => ['id', 'video', 'name', 'description', 'date_create', 'quality', 'commentary', 'is_processed'],
+            'fields' => ['id', 'video', 'name', 'description', 'date_create', 'is_processed'],
             'order' => ['id'],
             'order_direction' => ['DESC'],
         ]);

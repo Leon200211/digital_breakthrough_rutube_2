@@ -41,7 +41,7 @@ class UploadProfileController extends BaseController
         }
 
         if(!$this->model) $this->model = MainModel::getInstance();
-        $id = $this->model->read('upload_video', [
+        $id = $this->model->read('upload_profile', [
             'fields' => ['id'],
             'limit' => '1',
             'order' => ['id'],
@@ -58,13 +58,11 @@ class UploadProfileController extends BaseController
         $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/" . $fileName;
 
         if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
-            $this->model->add('upload_video', [
+            $this->model->add('upload_profile', [
                 'fields' => [
-                    'video' => $fileName,
+                    'photo' => $fileName,
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
-                    'quality' => $_REQUEST['quality'] === 'true' ? 1 : 0,
-                    'commentary' => $_REQUEST['commentary'] === 'true' ? 1 : 0,
                     'is_processed' => 0
                 ]
             ]);
@@ -114,21 +112,12 @@ class UploadProfileController extends BaseController
      */
     public function uploadProfileFromApi(): void
     {
-
-        $data = [
-            'file' => $_FILES,
-            'ruq' => $_REQUEST
-        ];
-        file_put_contents(__DIR__ . '/test2.log', print_r($data, 1), FILE_APPEND);
-
-
-
         if(!$this->model) $this->model = MainModel::getInstance();
-        $videoDb = $this->model->read('upload_video', [
+        $profileDb = $this->model->read('upload_profile', [
            'fields' => ['id', 'video'],
            'where' => ['id' => $_REQUEST['upload_id']]
         ]);
-        if (empty($videoDb)) {
+        if (empty($profileDb)) {
             http_response_code(400);
             echo "Не корректные данные";
             exit();
@@ -141,13 +130,13 @@ class UploadProfileController extends BaseController
             exit();
         }
 
-        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/" . $videoDb[0]['video'];
+        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/profile/" . $profileDb[0]['video'];
         if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
-            $this->model->update('upload_video', [
+            $this->model->update('upload_profile', [
                 'fields' => [
                     'is_processed' => 1,
                 ],
-                'where' => ['id' => $videoDb[0]['id']]
+                'where' => ['id' => $profileDb[0]['id']]
             ]);
             http_response_code(200);
             echo "success";
@@ -172,22 +161,22 @@ class UploadProfileController extends BaseController
         }
 
         if(!$this->model) $this->model = MainModel::getInstance();
-        $videoDb = $this->model->read('upload_video', [
+        $profileDb = $this->model->read('upload_profile', [
             'fields' => ['id', 'is_processed', 'video'],
             'where' => ['id' => $_REQUEST['id']]
         ]);
 
-        if (empty($videoDb)) {
+        if (empty($profileDb)) {
             http_response_code(400);
             echo "Не корректные данные";
             exit();
         }
 
-        if ($videoDb[0]['is_processed'] == 1) {
+        if ($profileDb[0]['is_processed'] == 1) {
             http_response_code(200);
             $result = [
                 'is_processed' => 1,
-                'video' => $videoDb[0]['video'],
+                'video' => $profileDb[0]['video'],
             ];
             echo json_encode($result);
         } else {

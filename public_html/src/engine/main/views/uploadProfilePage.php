@@ -37,44 +37,28 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <ion-icon name="reload-outline"></ion-icon>
                         </div>
                     </div>
-                    <video controls style="border-radius: 15px; width: 100%;height: 250px; max-width: 400px; max-height: 250px" hidden>
-                        <source src="" type="video/mp4">
-                    </video>
                 </div>
 <!--                <form class="form" id="uploadForm" method="POST" enctype="multipart/form-data">-->
                     <div class="video-inputs">
                         <div class="select-vid">
                             <input type="file" id="inpFile1" class="inpFile" name="inpFile" hidden>
-                            <label for="inpFile1" id="inpFile">Выберите видео</label>
+                            <label for="inpFile1" id="inpFile">Выберите файл</label>
                             <div class="vid-name"></div>
 
                             <div>
-                                <div style="font-size: 20px;">Ваше превью</div>
+                                <div style="font-size: 20px;">Результат</div>
                                 <img style="max-width: 500px; max-height: 250px;" src="templates/default/assets/img/news-1.jpg">
                             </div>
 
                         </div>
 
                         <div class="info-inputs">
-                            <input type="text" class="video-name" id="video_name" placeholder="Введите название...">
-                            <textarea name="" cols="30" rows="10" id="video_description" class="video-desc" placeholder="Введите описание..."></textarea>
-                            <div class="video-checkbox">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="vid-quality">
-                                    <label for="vid-quality">Улучшить качество</label>
-                                    <span id="better-quality">?</span>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="checkbox" id="vid-commentary">
-                                    <label for="vid-quality2">Добавить тифлокомментарии</label>
-                                    <span id="typhlocommentary">?</span>
-                                </div>
-                            </div>
-
+                            <input type="text" class="profile-name" id="profile_name" placeholder="Введите название...">
+                            <textarea name="" cols="30" rows="10" id="profile_description" class="profile-desc" placeholder="Введите описание..."></textarea>
                         </div>
 
                     </div>
-                    <button type="submit" id="upload_video_btn" style="
+                    <button type="submit" id="upload_profile_btn" style="
                             width: 100%;
                             max-width: 150px;
                             margin-top: 15px;
@@ -94,7 +78,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
     let elem = document.querySelector('.itemBar')
     const rootDiv = document.querySelector('.container')
 
-    let subbtn = document.getElementById('upload_video_btn')
+    let subbtn = document.getElementById('upload_profile_btn')
 
     function ext(name) {
         var m = name.match(/\.([^.]+)$/)
@@ -113,13 +97,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
             document.querySelector('.vid-name').style.width = '10%'
             document.querySelector('.vid-name').style.color = 'black'
         }
-        if (splittedFileName == 'mp4' || splittedFileName == 'mov' || splittedFileName == 'wmv' ||
-            splittedFileName == 'avi' || splittedFileName == 'avchd' || splittedFileName == 'flv' ||
-            splittedFileName == 'f4v' || splittedFileName == 'swf' || splittedFileName == 'mkv' ||
-            splittedFileName == 'webm') {
+        if (splittedFileName == 'png' || splittedFileName == 'jpg' || splittedFileName == 'jpeg') {
 
-            document.getElementById('upload_video_btn').removeAttribute('disabled');
-            document.getElementById('upload_video_btn').style.background = '#FF645F';
+            document.getElementById('upload_profile_btn').removeAttribute('disabled');
+            document.getElementById('upload_profile_btn').style.background = '#FF645F';
 
             subbtn.onclick = (e) => {
                     e.preventDefault();
@@ -132,16 +113,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                     console.log(files)
 
 
-                    formData.append('name', document.getElementById('video_name').value)
-                    formData.append('description', document.getElementById('video_description').value)
-                    formData.append('quality', document.getElementById('vid-quality').checked)
-                    formData.append('commentary', document.getElementById('vid-commentary').checked)
+                    formData.append('name', document.getElementById('profile_name').value)
+                    formData.append('description', document.getElementById('profile_description').value)
 
                     console.log(formData)
 
                     const xhr = new XMLHttpRequest()
 
-                    xhr.open('POST', '/uploadVideo')
+                    xhr.open('POST', '/uploadProfile')
                     xhr.upload.addEventListener('progress', e => {
                         const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
                         elem.style.width = percent.toFixed(2) + '%'
@@ -152,11 +131,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
                         document.querySelector('#load-label2').textContent = 'Загрузка завершена'
                         document.querySelector('.label').style.color = '#52C78F'
-                        document.querySelector('#vid-quality').setAttribute('disabled', true)
-                        document.querySelector('#vid-commentary').setAttribute('disabled', true)
-                        document.querySelector('.video-name').setAttribute('disabled', true)
-                        document.querySelector('.video-desc').setAttribute('disabled', true)
-                        document.querySelector('.video-info').style.display = 'flex'
+                        document.querySelector('.profile-name').setAttribute('disabled', true)
+                        document.querySelector('.profile-desc').setAttribute('disabled', true)
                         document.querySelector('[for="inpFile1"]').style.display = 'none'
                         document.querySelector('.vid-name').style.display = 'none'
                         document.querySelector('[type="submit"]').style.display = 'none'
@@ -173,18 +149,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             var formdata2 = new FormData()
                             formdata2.append('id', JSONobj.id)
                             var proccess = setInterval(() => {
-                                xhr2.open('POST', '/checkVideo')
+                                xhr2.open('POST', '/checkProfile')
                                 xhr2.send(formdata2)
                                 xhr2.onload = () => {
                                     let JSONobj2 = JSON.parse(xhr2.response)
                                     if (JSONobj2.is_processed == 1) {
                                         clearInterval(proccess)
                                         document.querySelector('#process-label2').textContent = 'Обработка завершена'
-                                        document.querySelector('.video-frame').style.display = 'none'
-                                        document.querySelector('video').removeAttribute('hidden')
-                                        document.querySelector('source').setAttribute('src', `<?=$SITE_URL?>files/uploads/${JSONobj2.video}`)
-                                        document.querySelector('video').currentTime = 0
-                                        document.querySelector('video').load()
                                     }
                                 }
                             }, 2000)
@@ -203,9 +174,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
             document.querySelector('.vid-name').style.border = 'none'
             document.querySelector('.vid-name').style.width = '100%'
             document.querySelector('.vid-name').style.color = 'red'
-            document.querySelector('.vid-name').textContent = 'Загрузите ВИДЕО, файлы другого формата будут очищаться.'
-            document.getElementById('upload_video_btn').setAttribute('disabled', true);
-            document.getElementById('upload_video_btn').style.background = 'gray';
+            document.querySelector('.vid-name').textContent = 'Загрузите Фото, файлы другого формата будут очищаться.'
+            document.getElementById('upload_profile_btn').setAttribute('disabled', true);
+            document.getElementById('upload_profile_btn').style.background = 'gray';
             if (i.value) {
                 try {
                     i.value = '';

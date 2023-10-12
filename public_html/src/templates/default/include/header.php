@@ -2,10 +2,12 @@
     <div class="container">
         <div class="header-line">
             <div class="logo">
-                <img src="/templates/default/assets/img/image.png" alt="">
+                <a href="/">
+                    <img src="/templates/default/assets/img/image.png" alt="">
+                </a>
             </div>
             <div class="team-logo">
-                <span>Нейр<em>ON</em></span>
+                <span><em>No</em>Name</span>
             </div>
         </div>
     </div>

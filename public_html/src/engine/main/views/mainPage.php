@@ -14,7 +14,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
         <br>
         <div class="toVidList">
             <a href="/profile/upload?path=profile">Сгенерировать фотографию профиля<ion-icon name="arrow-forward-outline"></ion-icon></a>
-            <a href="/studio?path=studio">Посмотреть историю</a>
+            <a href="/upload/profile/history">Посмотреть историю</a>
         </div>
         <br>
         <br>
