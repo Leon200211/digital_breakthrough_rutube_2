@@ -80,6 +80,19 @@ class Settings
         ],
 
 
+
+        '/banner' => [
+            'controller' => 'uploadBanner',
+            'controllerPath' => '\engine\main\controllers\\',
+            'action' => 'index',
+        ],
+        '/upload/banner/history' => [
+            'controller' => 'UploadBannerHistoryController',
+            'controllerPath' => '\engine\main\controllers\\',
+            'action' => 'index',
+        ],
+
+
     ];
 
 

@@ -54,6 +54,27 @@ if ($_SERVER['REQUEST_URI'] == '/upload/profile/history') {
     echo $uploadVideo->outputData();
     exit();
 }
+if ($_SERVER['REQUEST_URI'] == '/checkProfile') {
+    $uploadVideo = new \engine\main\controllers\UploadProfileController();
+    $uploadVideo->checkProfile();
+}
+
+
+
+if ($_SERVER['REQUEST_URI'] == '/uploadBanner') {
+    $uploadVideo = new \engine\main\controllers\UploadBannerController();
+    $uploadVideo->uploadBanner();
+}
+if ($_SERVER['REQUEST_URI'] == '/upload/banner/history') {
+    $uploadVideo = new \engine\main\controllers\UploadBannerHistoryController();
+    $uploadVideo->index();
+    echo $uploadVideo->outputData();
+    exit();
+}
+if ($_SERVER['REQUEST_URI'] == '/checkBanner') {
+    $uploadVideo = new \engine\main\controllers\UploadBannerController();
+    $uploadVideo->checkBanner();
+}
 
 
 try{

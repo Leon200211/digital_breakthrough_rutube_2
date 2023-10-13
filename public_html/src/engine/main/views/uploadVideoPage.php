@@ -48,9 +48,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <label for="inpFile1" id="inpFile">Выберите видео</label>
                             <div class="vid-name"></div>
 
-                            <div>
+                            <div id="result" style="display: none;">
                                 <div style="font-size: 20px;">Ваше превью</div>
-                                <img style="max-width: 500px; max-height: 250px;" src="templates/default/assets/img/news-1.jpg">
+                                <img style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
                             </div>
 
                         </div>
@@ -185,6 +185,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                         document.querySelector('source').setAttribute('src', `<?=$SITE_URL?>files/uploads/${JSONobj2.video}`)
                                         document.querySelector('video').currentTime = 0
                                         document.querySelector('video').load()
+
+                                        document.getElementById('result').style.display = 'block';
                                     }
                                 }
                             }, 2000)

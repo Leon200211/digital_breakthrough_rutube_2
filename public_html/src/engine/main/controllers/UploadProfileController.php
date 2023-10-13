@@ -55,7 +55,7 @@ class UploadProfileController extends BaseController
         }
 
         $fileName = 'test_' . random_int(1, 1000000) . '.' . $ext;
-        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/" . $fileName;
+        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/profile/" . $fileName;
 
         if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
             $this->model->add('upload_profile', [
@@ -154,6 +154,15 @@ class UploadProfileController extends BaseController
      */
     public function checkProfile(): void
     {
+        //sleep(5);
+        http_response_code(200);
+        $result = [
+            'is_processed' => 1,
+            'photo' => 123,
+        ];
+        echo json_encode($result);
+        exit();
+
         if (empty($_REQUEST['id'])) {
             http_response_code(400);
             echo "Error 400";
@@ -176,7 +185,7 @@ class UploadProfileController extends BaseController
             http_response_code(200);
             $result = [
                 'is_processed' => 1,
-                'video' => $profileDb[0]['video'],
+                'photo' => $profileDb[0]['photo'],
             ];
             echo json_encode($result);
         } else {

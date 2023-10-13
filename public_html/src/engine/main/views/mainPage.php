@@ -19,8 +19,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
         <br>
         <br>
         <div class="toVidList">
-            <a href="/studio?path=studio">Сгенерировать банер канала<ion-icon name="arrow-forward-outline"></ion-icon></a>
-            <a href="/studio?path=studio">Посмотреть историю</a>
+            <a href="/banner?path=banner">Сгенерировать банер канала<ion-icon name="arrow-forward-outline"></ion-icon></a>
+            <a href="/upload/banner/history">Посмотреть историю</a>
         </div>
     </div>
 </section>

@@ -6,6 +6,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
 <section>
     <div class="container">
+        <div class="toVidList">
+            <a href="/"><ion-icon name="arrow-back-outline"></ion-icon> Назад</a>
+        </div>
         <div class="videos-list">
 
             <?php foreach ($this->data as $video): ?>

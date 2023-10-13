@@ -45,9 +45,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <label for="inpFile1" id="inpFile">Выберите файл</label>
                             <div class="vid-name"></div>
 
-                            <div>
+                            <div id="result" style="display: none;">
                                 <div style="font-size: 20px;">Результат</div>
-                                <img style="max-width: 500px; max-height: 250px;" src="templates/default/assets/img/news-1.jpg">
+                                <img style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
                             </div>
 
                         </div>
@@ -56,6 +56,64 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <input type="text" class="profile-name" id="profile_name" placeholder="Введите название...">
                             <textarea name="" cols="30" rows="10" id="profile_description" class="profile-desc" placeholder="Введите описание..."></textarea>
                         </div>
+
+
+                        <div>
+                            Выберите тип обработки
+                        </div>
+                        <label><input type="radio" id="radio1" name="e"> First</label>
+                        <label><input type="radio" id="radio2" name="e"> Second</label>
+                        <style>
+                            input[type=radio] {
+                                --s: 1em;     /* control the size */
+                                --c: #009688; /* the active color */
+
+                                height: var(--s);
+                                aspect-ratio: 1;
+                                border: calc(var(--s)/8) solid #939393;
+                                padding: calc(var(--s)/8);
+                                background:
+                                        radial-gradient(farthest-side,var(--c) 94%,#0000)
+                                        50%/0 0 no-repeat content-box;
+                                border-radius: 50%;
+                                outline-offset: calc(var(--s)/10);
+                                -webkit-appearance: none;
+                                -moz-appearance: none;
+                                appearance: none;
+                                cursor: pointer;
+                                font-size: inherit;
+                                transition: .3s;
+                            }
+                            input[type=radio]:checked {
+                                border-color: var(--c);
+                                background-size: 100% 100%;
+                            }
+
+                            input[type=radio]:disabled {
+                                background:
+                                        linear-gradient(#939393 0 0)
+                                        50%/100% 20% no-repeat content-box;
+                                opacity: .5;
+                                cursor: not-allowed;
+                            }
+
+                            @media print {
+                                input[type=radio] {
+                                    -webkit-appearance: auto;
+                                    -moz-appearance: auto;
+                                    appearance: auto;
+                                    background: none;
+                                }
+                            }
+
+                            label {
+                                display:inline-flex;
+                                align-items:center;
+                                gap:10px;
+                                margin:5px 0;
+                                cursor: pointer;
+                            }
+                        </style>
 
                     </div>
                     <button type="submit" id="upload_profile_btn" style="
@@ -156,6 +214,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                     if (JSONobj2.is_processed == 1) {
                                         clearInterval(proccess)
                                         document.querySelector('#process-label2').textContent = 'Обработка завершена'
+
+                                        document.getElementById('result').style.display = 'block';
                                     }
                                 }
                             }, 2000)
