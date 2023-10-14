@@ -153,6 +153,453 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         </div>
 
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div id="paint_block" style="display: none" class="paint_title">
+                        <div class="instruments_for_paint">
+                            <div class="main_btn_paint">
+                                <!--                            <button onclick="Clear()" class="common_back_href">Очистить</button>-->
+                                <!--                            <button onclick="undo_last()" class="common_back_href">Назад</button>-->
+                            </div>
+                            <div class="main_color_choice">
+                                <input type="color" id="color">
+                            </div>
+                            <div>
+                                <div class="switch-btn" onclick="change_color(this)" style="background:white"></div>
+                                <div class="switch-btn" onclick="change_color(this)" style="background:black"></div>
+                            </div>
+                            <div class="choice_bold">
+                                <input type="range" min="1" max="100" value="3" oninput="stroke_width = this.value">
+                            </div>
+                            <div class="shape_selection">
+                                <button onclick="d_1()" class="common_back_href">Линиия</button>
+                                <button onclick="d_2()" class="common_back_href">Овал</button>
+                                <button onclick="d_3()" class="common_back_href">Квадрат</button>
+                            </div>
+                        </div>
+
+
+                        <div class="image_for_designer">
+                            <canvas id="c1_new" width="1000" height="500"></canvas>
+                        </div>
+                        <img hidden id="img"/>
+
+                    </div>
+                    <script>
+                        let canvas = document.getElementById("c1_new");
+
+                        //canvas.style.backgroundImage = "url('/files/profile/hyperpc-wallpaper-4K.jpg')";
+                        canvas.style.backgroundSize = "1000px 500px";
+
+
+                        let context = canvas.getContext("2d");
+
+                        let img = new Image();
+                        var height = 180;
+                        var width = 180;
+                        img.onload = function() {
+                            // context.save();
+                            //context.rect(0, 0, 1000, 500);//Здесь первый 0=X
+                            // context.clip();
+                            //context.drawImage(img,0, 0,1000,500);//Первый 0=X
+                            // context.restore();
+
+                            context.fill();
+                            context.strokeStyle = 'rgba(0, 0, 0, 0)';
+                        };
+
+
+
+
+
+                        var d = new Date();
+
+
+                        //img.src = '/files/profile/Снимок экрана 2023-10-14 134432.png';
+
+
+
+                        let stroke_color = 'black';
+                        let stroke_width = "3";
+                        let is_drawing = false;
+                        let fig;
+
+
+                        document.getElementById('color').oninput = function (){
+                            stroke_color = this.value;
+                        }
+
+                        function change_color(element) {
+                            stroke_color = element.style.background;
+                        }
+
+                        function change_width(element) {
+                            stroke_width = element.innerHTML
+                        }
+
+
+
+
+
+
+                        function Clear() {
+                            context.fillStyle = "white";
+                            context.clearRect(0, 0, canvas.width, canvas.height);
+                            img.src = canvas.toDataURL();
+                            context.fillRect(0, 0, canvas.width, canvas.height);
+
+
+                            restore_array = [];
+                            start_index = -1;
+                        }
+
+
+
+                        let restore_array = [];
+                        let start_index = -1;
+                        function undo_last(){
+                            if(start_index <= 0){
+                                //img.src = '/files/profile/Снимок экрана 2023-10-14 134432.png';
+                            }else{
+                                start_index -= 1;
+                                restore_array.pop();
+                                context.putImageData(restore_array[start_index], 0, 0);
+                                console.log(restore_array);
+                            }
+                        }
+
+
+
+
+
+
+                        var f1 = 0;
+                        var f2 = 0;
+                        var f3 = 0;
+
+                        function d_1(){
+
+                            fig = 0;
+
+                            if(f1 == 1){
+                                return;
+                            }
+                            f1 = 1;
+
+
+
+                            console.log(fig);
+
+                            canvas.addEventListener("touchstart", start, false);
+                            canvas.addEventListener("touchmove", draw, false);
+                            canvas.addEventListener("touchend", stop, false);
+                            canvas.addEventListener("mousedown", start, false);
+                            canvas.addEventListener("mousemove", draw, false);
+                            canvas.addEventListener("mouseup", stop, false);
+                            canvas.addEventListener("mouseout", stop, false);
+
+
+                            function getX(event) {
+                                if (event.pageX == undefined) {return event.targetTouches[0].pageX - canvas.offsetLeft}
+                                else {return event.pageX - canvas.offsetLeft}
+                            }
+                            function getY(event) {
+                                if (event.pageY == undefined) {return event.targetTouches[0].pageY - canvas.offsetTop}
+                                else {return event.pageY - canvas.offsetTop}
+                            }
+                            // обычная рисовалка
+                            function start(event) {
+                                if(fig == 0) {
+                                    is_drawing = true;
+                                    context.beginPath();
+                                    context.moveTo(getX(event), getY(event));
+                                    event.preventDefault();
+                                }
+                            }
+                            function draw(event) {
+                                if (is_drawing && fig == 0) {
+                                    context.lineTo(getX(event), getY(event));
+                                    context.strokeStyle = stroke_color;
+                                    context.lineWidth = stroke_width;
+                                    context.lineCap = "round";
+                                    context.lineJoin = "round";
+                                    context.stroke();
+                                }
+                                event.preventDefault();
+                            }
+                            function stop(event) {
+                                if (is_drawing) {
+                                    context.stroke();
+                                    context.closePath();
+                                    is_drawing = false;
+                                }
+                                event.preventDefault();
+
+                                if(event.type != 'mouseout' && event.type != 'touchend' && fig == 0){
+                                    restore_array.push(context.getImageData(0, 0, canvas.width, canvas.height));
+                                    start_index += 1;
+                                    console.log(restore_array);
+                                }
+
+                                img.src = canvas.toDataURL();
+                            }
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        function d_2(){
+
+                            fig = 1;
+
+                            if(f2 == 1){
+                                return;
+                            }
+                            f2 = 1;
+
+
+
+                            console.log(fig);
+                            canvas.addEventListener("mousedown", startDrawing, false);
+                            canvas.addEventListener("mousemove", draw_2, false);
+                            canvas.addEventListener("mouseup", stopDrawing, false);
+
+                            canvas.addEventListener("touchstart", startDrawing, false);
+                            canvas.addEventListener("touchmove", draw_2, false);
+                            canvas.addEventListener("touchend", stopDrawing, false);
+                            canvas.addEventListener("mouseout", stopDrawing, false);
+
+
+
+                            isDrawing = false;
+                            function getX(e) {
+                                if (e.pageX == undefined) {return e.targetTouches[0].pageX - canvas.offsetLeft}
+                                else {return e.pageX - canvas.offsetLeft}
+                            }
+                            function getY(e) {
+                                if (e.pageY == undefined) {return e.targetTouches[0].pageY - canvas.offsetTop}
+                                else {return e.pageY - canvas.offsetTop}
+                            }
+                            function current_coords(e){
+                                x2 = getX(e);
+                                y2 = getY(e);
+                            }
+
+                            function startDrawing(e) {
+                                if(e.which == 1 || e.which == 0){
+                                    isDrawing = true;
+
+
+                                    context.beginPath();
+                                    context.moveTo(getX(e), getY(e));
+                                    e.preventDefault();
+
+
+                                }
+                                x = getX(e);
+                                y = getY(e);
+                            }
+
+
+                            function stopDrawing(e) {
+                                img.src = canvas.toDataURL();
+                                isDrawing = false;
+
+                                if(e.type != 'mouseout' && e.type != 'touchend' && fig == 1){
+                                    restore_array.push(context.getImageData(0, 0, canvas.width, canvas.height));
+                                    start_index += 1;
+                                    console.log(restore_array);
+                                }
+                            }
+
+                            function draw_2(e) {
+                                if(isDrawing == true && fig == 1){
+                                    context.clearRect(0,0,canvas.width, canvas.height);
+                                    context.drawImage(img, 0, 0);
+                                    current_coords(e);
+                                    draw_ellipce();
+                                    context.strokeStyle = stroke_color;
+                                    context.lineWidth = stroke_width;
+                                    context.stroke();
+                                }
+                                e.preventDefault();
+                            }
+                            function current_center_radius(){
+                                if(x2 > x || x2 == x){
+                                    R_x = (x2 - x) / 2;
+                                    centerX = R_x + x;
+                                }
+                                if(x2 < x){
+                                    R_x = (x - x2) / 2;
+                                    centerX = x - R_x;
+                                }
+
+                                if(y2 > y || y2 == y){
+                                    R_y = (y2 - y) / 2;
+                                    centerY = R_y + y;
+                                }
+                                if(y2 < y){
+                                    R_y = (y - y2) / 2;
+                                    centerY = y - R_y;
+                                }
+                            }
+
+                            function draw_ellipce() {
+                                current_center_radius();
+                                context.save();
+
+                                if(R_x > R_y || R_x == R_y) {
+                                    R = R_x;
+                                    scale_y = R_y / R_x;
+                                    scale_x = 1;
+                                    if(scale_y != 0){
+                                        centerY = centerY / scale_y;
+                                    }
+                                    context.scale(1, scale_y);
+                                }
+                                if(R_x < R_y) {
+                                    R = R_y;
+                                    scale_x = R_x / R_y;
+                                    scale_y = 1;
+                                    if(scale_x != 0){
+                                        centerX = centerX / scale_x;
+                                    }
+                                    context.scale(scale_x, 1);
+                                }
+
+
+                                context.beginPath();
+                                context.translate(centerX, centerY);
+                                if(scale_y != 0 && scale_x != 0){
+                                    context.arc(0,0, R, 0, 2*Math.PI);
+                                }
+                                context.restore();
+                                context.stroke();
+
+                            }
+
+
+                        }
+
+
+
+
+
+
+
+                        function d_3(){
+
+                            fig = 2;
+
+                            if(f3 == 1){
+                                return;
+                            }
+                            f3 = 1;
+
+
+                            console.log(fig);
+                            canvas.addEventListener("mousedown", startDrawing, false);
+                            canvas.addEventListener("mousemove", draw_3, false);
+                            canvas.addEventListener("mouseup", stopDrawing, false);
+                            canvas.addEventListener("touchstart", startDrawing, false);
+                            canvas.addEventListener("touchmove", draw_3, false);
+                            canvas.addEventListener("touchend", stopDrawing, false);
+                            canvas.addEventListener("mouseout", stopDrawing, false);
+
+
+
+                            function current_width_height(){
+                                rect_width = Math.abs(x2 - x);
+                                rect_height = Math.abs(y2 - y);
+                            }
+                            function drawRect() {
+                                current_width_height();
+                                context.beginPath();
+                                if (x2 < x) x_start = x2;
+                                if (y2 < y) y_start = y2;
+                                if (x2 > x) x_start = x;
+                                if (y2 > y) y_start = y;
+                                if (x2 == x) x_start = x;
+                                if (y2 == y) y_start = y;
+                                context.rect(x_start, y_start, rect_width, rect_height);
+                                context.stroke();
+                            }
+                            isDrawing = false;
+                            function getX(e) {
+                                if (e.pageX == undefined) {return e.targetTouches[0].pageX - canvas.offsetLeft}
+                                else {return e.pageX - canvas.offsetLeft}
+                            }
+                            function getY(e) {
+                                if (e.pageY == undefined) {return e.targetTouches[0].pageY - canvas.offsetTop}
+                                else {return e.pageY - canvas.offsetTop}
+                            }
+                            function current_coords(e){
+                                x2 = getX(e);
+                                y2 = getY(e);
+                            }
+
+                            function startDrawing(e) {
+                                if(e.which == 1 || e.which == 0){
+                                    isDrawing = true;
+                                }
+                                x = getX(e);
+                                y = getY(e);
+                            }
+                            function stopDrawing(e) {
+                                img.src = canvas.toDataURL();
+                                isDrawing = false;
+
+                                if(e.type != 'mouseout' && e.type != 'touchend' && fig == 2){
+                                    restore_array.push(context.getImageData(0, 0, canvas.width, canvas.height));
+                                    start_index += 1;
+                                    console.log(fig, restore_array);
+                                }
+                            }
+                            function draw_3(e) {
+                                if(isDrawing == true && fig == 2){
+                                    context.clearRect(0,0,canvas.width, canvas.height);
+                                    context.drawImage(img, 0, 0);
+                                    context.strokeStyle = stroke_color;
+                                    context.lineWidth = stroke_width;
+                                    current_coords(e);
+                                    drawRect();
+                                }
+                            }
+                        }
+                    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <button type="submit" id="upload_profile_btn" style="
                             width: 100%;
                             max-width: 150px;
@@ -197,6 +644,20 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                 document.getElementById('upload_profile_btn').removeAttribute('disabled');
                 document.getElementById('upload_profile_btn').style.background = '#FF645F';
 
+                document.getElementById('paint_block').style.display = 'block';
+                let canvas = document.getElementById("c1_new");
+                //canvas.style.backgroundImage = "url('/files/profile/hyperpc-wallpaper-4K.jpg')";
+                canvas.style.backgroundImage = "url('" + URL.createObjectURL(document.querySelector('[name=inpFile]').files[0]) + "')";
+
+                let GlobalWidth = 0;
+                let GlobalHeight = 0;
+                const imgss = new Image();
+                imgss.onload = function() {
+                    GlobalWidth = this.width;
+                    GlobalHeight = this.height;
+                }
+                imgss.src = URL.createObjectURL(document.querySelector('[name=inpFile]').files[0]);
+
                 subbtn.onclick = (e) => {
                     e.preventDefault();
                     const files = document.querySelector('[name=inpFile]').files[0]
@@ -212,6 +673,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                     formData.append('description', document.getElementById('profile_description').value)
 
                     formData.append('style', document.getElementById('style').value)
+
+                    canvas.width = GlobalWidth;
+                    canvas.height = GlobalHeight;
+                    //render the image
+                    console.log(img)
+                    context.drawImage(img, 0, 0, GlobalWidth, GlobalHeight);
+                    var img_s = canvas.toDataURL('image.png').replace('data:image/png;base64,', '');
+                    formData.append('draw_photo', img_s)
+
+                    canvas.width = 1000;
+                    canvas.height = 500;
+                    //render the image
+                    context.drawImage(img, 0, 0, 1000, 500);
 
                     if (document.getElementById('radio1').checked == true) {
                         formData.append('type', 1)
@@ -252,7 +726,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         console.log(JSONobj)
 
                         document.getElementById('preresult').style.display = 'block';
-                        document.getElementById('photo').setAttribute('src', `<?=$SITE_URL?>files/banner/${JSONobj.photo}`)
+                        document.getElementById('photo').setAttribute('src', `/files/banner/${JSONobj.photo}`)
 
                         if (JSONobj.status == 'success') {
                             var xhr2 = new XMLHttpRequest()
@@ -269,7 +743,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                         document.querySelector('#process-label2').textContent = 'Обработка завершена';
                                         document.querySelector('#process-label2').style.color = '#52C78F';
 
-                                        document.getElementById('photo_res').setAttribute('src', `<?=$SITE_URL?>files/banner/photo/${JSONobj2.photo_res}`)
+                                        document.getElementById('photo_res').setAttribute('src', `/files/banner/photo/${JSONobj2.photo_res}`)
                                         document.getElementById('result').style.display = 'block';
                                     }
                                 }
@@ -310,6 +784,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
 
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/footer.php';
 ?>

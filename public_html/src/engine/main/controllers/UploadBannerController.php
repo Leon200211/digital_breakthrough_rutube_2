@@ -81,8 +81,11 @@ class UploadBannerController extends BaseController
             $curl = curl_init();
             $aPost = array(
                 'upload_id' => $idNewVideo + 1,
-                'quality_upgrade' => $_REQUEST['quality'] === 'true' ? 1 : 0,
-                'generate_comments' => $_REQUEST['commentary'] === 'true' ? 1 : 0,
+                'name' => $_REQUEST['name'],
+                'description' => $_REQUEST['description'],
+                'style' => $_REQUEST['style'],
+                'type' => $_REQUEST['type'],
+                'draw_photo' => $_REQUEST['draw_photo'],
             );
             if ((version_compare(PHP_VERSION, '5.5') >= 0)) {
                 $aPost['file'] = new \CURLFile($targetPath);
