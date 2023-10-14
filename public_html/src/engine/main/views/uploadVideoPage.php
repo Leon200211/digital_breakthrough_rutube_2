@@ -59,16 +59,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <input type="text" class="video-name" id="video_name" placeholder="Введите название...">
                             <textarea name="" cols="30" rows="10" id="video_description" class="video-desc" placeholder="Введите описание..."></textarea>
                             <div class="video-checkbox">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="vid-quality">
-                                    <label for="vid-quality">Улучшить качество</label>
-                                    <span id="better-quality">?</span>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="checkbox" id="vid-commentary">
-                                    <label for="vid-quality2">Добавить тифлокомментарии</label>
-                                    <span id="typhlocommentary">?</span>
-                                </div>
+                                <style>
+                                    .box {
+                                        width: 300px;
+                                        height: 30px;
+                                        border: 1px solid #999;
+                                        font-size: 18px;
+                                        color: #1c87c9;
+                                        background-color: #eee;
+                                        border-radius: 5px;
+                                        box-shadow: 4px 4px #ccc;
+                                    }
+                                </style>
+                                <div>Оформленный блок выбора:</div>
+                                <select class="box">
+                                    <option>LoRa (0mib) Type of Vector Art</option>
+                                    <option>Colors [Tabi Style LoRA]</option>
+                                    <option>LACollageStyle</option>
+                                    <option>BouquetLatin|花束设计</option>
+                                    <option>Alena Style</option>
+                                    <option>Openjourney Lora</option>
+                                </select>
                             </div>
 
                         </div>
@@ -134,8 +145,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
                     formData.append('name', document.getElementById('video_name').value)
                     formData.append('description', document.getElementById('video_description').value)
-                    formData.append('quality', document.getElementById('vid-quality').checked)
-                    formData.append('commentary', document.getElementById('vid-commentary').checked)
 
                     console.log(formData)
 
@@ -152,8 +161,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
                         document.querySelector('#load-label2').textContent = 'Загрузка завершена'
                         document.querySelector('.label').style.color = '#52C78F'
-                        document.querySelector('#vid-quality').setAttribute('disabled', true)
-                        document.querySelector('#vid-commentary').setAttribute('disabled', true)
                         document.querySelector('.video-name').setAttribute('disabled', true)
                         document.querySelector('.video-desc').setAttribute('disabled', true)
                         document.querySelector('.video-info').style.display = 'flex'

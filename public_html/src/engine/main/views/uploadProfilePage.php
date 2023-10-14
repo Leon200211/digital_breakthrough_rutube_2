@@ -58,64 +58,101 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         </div>
 
 
-                        <div>
-                            Выберите тип обработки
-                        </div>
-                        <label><input type="radio" id="radio1" name="e"> First</label>
-                        <label><input type="radio" id="radio2" name="e"> Second</label>
-                        <style>
-                            input[type=radio] {
-                                --s: 1em;     /* control the size */
-                                --c: #009688; /* the active color */
-
-                                height: var(--s);
-                                aspect-ratio: 1;
-                                border: calc(var(--s)/8) solid #939393;
-                                padding: calc(var(--s)/8);
-                                background:
-                                        radial-gradient(farthest-side,var(--c) 94%,#0000)
-                                        50%/0 0 no-repeat content-box;
-                                border-radius: 50%;
-                                outline-offset: calc(var(--s)/10);
-                                -webkit-appearance: none;
-                                -moz-appearance: none;
-                                appearance: none;
-                                cursor: pointer;
-                                font-size: inherit;
-                                transition: .3s;
-                            }
-                            input[type=radio]:checked {
-                                border-color: var(--c);
-                                background-size: 100% 100%;
-                            }
-
-                            input[type=radio]:disabled {
-                                background:
-                                        linear-gradient(#939393 0 0)
-                                        50%/100% 20% no-repeat content-box;
-                                opacity: .5;
-                                cursor: not-allowed;
-                            }
-
-                            @media print {
-                                input[type=radio] {
-                                    -webkit-appearance: auto;
-                                    -moz-appearance: auto;
-                                    appearance: auto;
-                                    background: none;
+                        <div class="video-checkbox">
+                            <style>
+                                .box {
+                                    width: 300px;
+                                    height: 30px;
+                                    border: 1px solid #999;
+                                    font-size: 18px;
+                                    color: #1c87c9;
+                                    background-color: #eee;
+                                    border-radius: 5px;
+                                    box-shadow: 4px 4px #ccc;
                                 }
-                            }
+                            </style>
+                            <br>
+                            <br>
+                            <div>Оформленный блок выбора:</div>
+                            <select class="box">
+                                <option>LoRa (0mib) Type of Vector Art</option>
+                                <option>Colors [Tabi Style LoRA]</option>
+                                <option>LACollageStyle</option>
+                                <option>BouquetLatin|花束设计</option>
+                                <option>Alena Style</option>
+                                <option>Openjourney Lora</option>
+                            </select>
+                        </div>
 
-                            label {
-                                display:inline-flex;
-                                align-items:center;
-                                gap:10px;
-                                margin:5px 0;
-                                cursor: pointer;
-                            }
-                        </style>
+
+
+                        <div>
+                            <br>
+                            <br>
+                            <br>
+                            <div>
+                                Выберите тип обработки
+                            </div>
+                            <label><input type="radio" id="radio1" name="e"> By Face Pose</label>
+                            <label><input type="radio" id="radio2" name="e"> By Body Pose</label>
+                            <label><input type="radio" id="radio3" name="e"> Inpaint</label>
+                            <style>
+                                input[type=radio] {
+                                    --s: 1em;     /* control the size */
+                                    --c: #009688; /* the active color */
+
+                                    height: var(--s);
+                                    aspect-ratio: 1;
+                                    border: calc(var(--s)/8) solid #939393;
+                                    padding: calc(var(--s)/8);
+                                    background:
+                                            radial-gradient(farthest-side,var(--c) 94%,#0000)
+                                            50%/0 0 no-repeat content-box;
+                                    border-radius: 50%;
+                                    outline-offset: calc(var(--s)/10);
+                                    -webkit-appearance: none;
+                                    -moz-appearance: none;
+                                    appearance: none;
+                                    cursor: pointer;
+                                    font-size: inherit;
+                                    transition: .3s;
+                                }
+                                input[type=radio]:checked {
+                                    border-color: var(--c);
+                                    background-size: 100% 100%;
+                                }
+
+                                input[type=radio]:disabled {
+                                    background:
+                                            linear-gradient(#939393 0 0)
+                                            50%/100% 20% no-repeat content-box;
+                                    opacity: .5;
+                                    cursor: not-allowed;
+                                }
+
+                                @media print {
+                                    input[type=radio] {
+                                        -webkit-appearance: auto;
+                                        -moz-appearance: auto;
+                                        appearance: auto;
+                                        background: none;
+                                    }
+                                }
+
+                                label {
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:10px;
+                                    margin:5px 0;
+                                    cursor: pointer;
+                                }
+                            </style>
+                        </div>
+
 
                     </div>
+
+
                     <button type="submit" id="upload_profile_btn" style="
                             width: 100%;
                             max-width: 150px;
