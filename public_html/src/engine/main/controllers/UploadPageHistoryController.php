@@ -16,7 +16,7 @@ class UploadPageHistoryController extends BaseController
         if(!$this->model) $this->model = MainModel::getInstance();
 
         $this->data = $this->model->read('upload_video', [
-            'fields' => ['id', 'video', 'thumbnail', 'name', 'description', 'is_processed']
+            'fields' => ['id', 'video', 'thumbnail', 'name', 'description', 'is_processed', 'style']
         ]);
 
     }

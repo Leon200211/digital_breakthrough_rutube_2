@@ -25,7 +25,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                 <div class="progressBar" id="process-progressBar">
                     <div class="itemBar" id="process-itemBar">
                         <div class="label" id="process-label"></div>
-                        <div class="label" id="process-label2"></div>
+                        <div class="label" style="top: 0px;" id="process-label2"></div>
                     </div>
                     <ion-icon name="checkmark-circle-outline" id="process"></ion-icon>
                 </div>
@@ -37,6 +37,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <ion-icon name="reload-outline"></ion-icon>
                         </div>
                     </div>
+                    Исходное видео:
                     <video controls style="border-radius: 15px; width: 100%;height: 250px; max-width: 400px; max-height: 250px" hidden>
                         <source src="" type="video/mp4">
                     </video>
@@ -50,7 +51,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
                             <div id="result" style="display: none;">
                                 <div style="font-size: 20px;">Ваше превью</div>
-                                <img style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
+                                <img id="previewphoto" style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
                             </div>
 
                         </div>
@@ -72,7 +73,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                     }
                                 </style>
                                 <div>Оформленный блок выбора:</div>
-                                <select class="box">
+                                <select class="box" id="style_type">
                                     <option>LoRa (0mib) Type of Vector Art</option>
                                     <option>Colors [Tabi Style LoRA]</option>
                                     <option>LACollageStyle</option>
@@ -145,6 +146,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
                     formData.append('name', document.getElementById('video_name').value)
                     formData.append('description', document.getElementById('video_description').value)
+                    formData.append('style_type', document.getElementById('style_type').value)
 
                     console.log(formData)
 
@@ -163,6 +165,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         document.querySelector('.label').style.color = '#52C78F'
                         document.querySelector('.video-name').setAttribute('disabled', true)
                         document.querySelector('.video-desc').setAttribute('disabled', true)
+                        document.getElementById('style_type').setAttribute('disabled', true)
                         document.querySelector('.video-info').style.display = 'flex'
                         document.querySelector('[for="inpFile1"]').style.display = 'none'
                         document.querySelector('.vid-name').style.display = 'none'
@@ -176,6 +179,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         console.log(JSONobj.status)
                         console.log(JSONobj)
                         if (JSONobj.status == 'success') {
+
+                            document.querySelector('.video-frame').style.display = 'none'
+                            document.querySelector('video').removeAttribute('hidden')
+                            document.querySelector('source').setAttribute('src', `<?=$SITE_URL?>files/uploads/${JSONobj.video}`)
+                            document.querySelector('video').currentTime = 0
+                            document.querySelector('video').load()
+
+
                             var xhr2 = new XMLHttpRequest()
                             var formdata2 = new FormData()
                             formdata2.append('id', JSONobj.id)
@@ -184,15 +195,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                 xhr2.send(formdata2)
                                 xhr2.onload = () => {
                                     let JSONobj2 = JSON.parse(xhr2.response)
+                                    console.log(JSONobj2)
                                     if (JSONobj2.is_processed == 1) {
                                         clearInterval(proccess)
-                                        document.querySelector('#process-label2').textContent = 'Обработка завершена'
-                                        document.querySelector('.video-frame').style.display = 'none'
-                                        document.querySelector('video').removeAttribute('hidden')
-                                        document.querySelector('source').setAttribute('src', `<?=$SITE_URL?>files/uploads/${JSONobj2.video}`)
-                                        document.querySelector('video').currentTime = 0
-                                        document.querySelector('video').load()
 
+                                        document.querySelector('#process-label').style.display = 'none';
+
+                                        document.querySelector('#process-label2').textContent = 'Обработка завершена';
+                                        document.querySelector('#process-label2').style.color = '#52C78F';
+
+                                        document.getElementById('previewphoto').setAttribute('src', `<?=$SITE_URL?>files/uploads/photo/${JSONobj2.photo}`)
                                         document.getElementById('result').style.display = 'block';
                                     }
                                 }

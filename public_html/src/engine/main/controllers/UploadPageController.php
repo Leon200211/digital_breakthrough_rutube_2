@@ -9,6 +9,7 @@ class UploadPageController extends BaseController
 {
 
     private $_format = ['mp4', 'mov', 'wmv', 'avi', 'avchd', 'flv', 'f4v', 'swf', 'mkv', 'webm'];
+    private $_formatPhoto = ['jpg', 'jpeg', 'png'];
 
 
     public function index()
@@ -63,6 +64,7 @@ class UploadPageController extends BaseController
                     'video' => $fileName,
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
+                    'style' => $_REQUEST['style_type'],
                     'is_processed' => 0
                 ]
             ]);
@@ -70,8 +72,9 @@ class UploadPageController extends BaseController
 
             http_response_code(200);
             $result = [
-                "id" => $idNewVideo + 1,
-                "status" => 'success'
+                "id"     => $idNewVideo + 1,
+                "status" => 'success',
+                "video"  => $fileName,
             ];
             echo json_encode($result);
 
@@ -112,7 +115,7 @@ class UploadPageController extends BaseController
     {
         if(!$this->model) $this->model = MainModel::getInstance();
         $videoDb = $this->model->read('upload_video', [
-           'fields' => ['id', 'video'],
+           'fields' => ['id'],
            'where' => ['id' => $_REQUEST['upload_id']]
         ]);
         if (empty($videoDb)) {
@@ -121,18 +124,20 @@ class UploadPageController extends BaseController
             exit();
         }
 
-        $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-        if (!in_array($ext, $this->_format)) {
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        if (!in_array($ext, $this->_formatPhoto)) {
             http_response_code(400);
             echo "Не подходящий формат файла";
             exit();
         }
 
-        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/" . $videoDb[0]['video'];
-        if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
+        $targetPathPhoto = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/photo/" . $_FILES['photo']["name"];
+
+        if (move_uploaded_file($_FILES['photo']["tmp_name"], $targetPathPhoto)) {
             $this->model->update('upload_video', [
                 'fields' => [
                     'is_processed' => 1,
+                    'thumbnail' => $_FILES['photo']["name"],
                 ],
                 'where' => ['id' => $videoDb[0]['id']]
             ]);
@@ -159,22 +164,22 @@ class UploadPageController extends BaseController
         }
 
         if(!$this->model) $this->model = MainModel::getInstance();
-        $videoDb = $this->model->read('upload_video', [
-            'fields' => ['id', 'is_processed', 'video'],
+        $photoDb = $this->model->read('upload_video', [
+            'fields' => ['id', 'is_processed', 'thumbnail'],
             'where' => ['id' => $_REQUEST['id']]
         ]);
 
-        if (empty($videoDb)) {
+        if (empty($photoDb)) {
             http_response_code(400);
             echo "Не корректные данные";
             exit();
         }
 
-        if ($videoDb[0]['is_processed'] == 1) {
+        if ($photoDb[0]['is_processed'] == 1) {
             http_response_code(200);
             $result = [
                 'is_processed' => 1,
-                'video' => $videoDb[0]['video'],
+                'photo' => $photoDb[0]['thumbnail'],
             ];
             echo json_encode($result);
         } else {

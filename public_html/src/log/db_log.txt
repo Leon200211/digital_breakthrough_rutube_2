@@ -998,3 +998,23 @@ Fault: 12-10-2023 19:52:35 - Ошибка в SQL запросе: INSERT INTO upl
 file/var/www/html/engine/base/models/BaseModel.php
  In line 72
 
+Fault: 14-10-2023 8:17:20 - Ошибка в SQL запросе: UPDATE upload_video SET is_processed='1',photo='hyperpc-wallpaper-4K.jpg' WHERE id='5'  - 1054 Unknown column 'photo' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 8:17:37 - Ошибка в SQL запросе: UPDATE upload_video SET is_processed='1',photo='hyperpc-wallpaper-4K.jpg' WHERE id='5'  - 1054 Unknown column 'photo' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 8:51:11 - Ошибка в SQL запросе: UPDATE upload_video SET is_processed='1',photo='hyperpc-wallpaper-4K.jpg' WHERE id='20'  - 1054 Unknown column 'photo' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 8:56:09 - Ошибка в SQL запросе: UPDATE upload_video SET is_processed='1',photo='hyperpc-wallpaper-4K.jpg' WHERE id='21'  - 1054 Unknown column 'photo' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 8:57:02 - Ошибка в SQL запросе: UPDATE upload_video SET is_processed='1',photo='hyperpc-wallpaper-4K.jpg' WHERE id='21'  - 1054 Unknown column 'photo' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+

@@ -18,12 +18,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                 <source src="/files/uploads/<?=$video['video']?>" type="video/mp4">
             </video>
             <div>Превью</div>
-            <img style="max-width: 400px; max-height: 150px;" src="/templates/default/assets/img/<?=$video['thumbnail']?>">
+            <img style="max-width: 400px; max-height: 150px;" src="/files/uploads/photo/<?=$video['thumbnail']?>">
             <div>
                 Название: <?=$video['name']?>
             </div>
             <div>
                 Описание: <?=$video['description']?>
+            </div>
+            <div>
+                Стиль: <?=$video['style']?>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                 <div>
