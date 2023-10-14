@@ -25,7 +25,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                     <div class="progressBar" id="process-progressBar">
                         <div class="itemBar" id="process-itemBar">
                             <div class="label" id="process-label"></div>
-                            <div class="label" id="process-label2"></div>
+                            <div class="label" style="top: 0px;" id="process-label2"></div>
                         </div>
                         <ion-icon name="checkmark-circle-outline" id="process"></ion-icon>
                     </div>
@@ -45,11 +45,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <label for="inpFile1" id="inpFile">Выберите файл</label>
                             <div class="vid-name"></div>
 
-                            <div id="result" style="display: none;">
-                                <div style="font-size: 20px;">Результат</div>
-                                <img style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
+                            <div id="preresult" style="display: none;">
+                                <div style="font-size: 20px;">Исходное фото</div>
+                                <img id="photo" style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
                             </div>
 
+                            <div id="result" style="display: none;">
+                                <div style="font-size: 20px;">Результат</div>
+                                <img id="photo_res" style="max-width: 500px; max-height: 250px;" src="/templates/default/assets/img/news-1.jpg">
+                            </div>
                         </div>
 
                         <div class="info-inputs">
@@ -74,7 +78,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                             <br>
                             <br>
                             <div>Оформленный блок выбора:</div>
-                            <select class="box">
+                            <select id="style" class="box">
                                 <option>LoRa (0mib) Type of Vector Art</option>
                                 <option>Colors [Tabi Style LoRA]</option>
                                 <option>LACollageStyle</option>
@@ -207,6 +211,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                     formData.append('name', document.getElementById('profile_name').value)
                     formData.append('description', document.getElementById('profile_description').value)
 
+                    formData.append('style', document.getElementById('style').value)
+
+                    if (document.getElementById('radio1').checked == true) {
+                        formData.append('type', 1)
+                    } else if (document.getElementById('radio2').checked == true) {
+                        formData.append('type', 2)
+                    } else if (document.getElementById('radio3').checked == true) {
+                        formData.append('type', 3)
+                    }
+
                     console.log(formData)
 
                     const xhr = new XMLHttpRequest()
@@ -224,6 +238,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         document.querySelector('.label').style.color = '#52C78F'
                         document.querySelector('.profile-name').setAttribute('disabled', true)
                         document.querySelector('.profile-desc').setAttribute('disabled', true)
+                        document.getElementById('style').setAttribute('disabled', true)
                         document.querySelector('[for="inpFile1"]').style.display = 'none'
                         document.querySelector('.vid-name').style.display = 'none'
                         document.querySelector('[type="submit"]').style.display = 'none'
@@ -235,6 +250,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                         let JSONobj = JSON.parse(xhr.response)
                         console.log(JSONobj.status)
                         console.log(JSONobj)
+
+                        document.getElementById('preresult').style.display = 'block';
+                        document.getElementById('photo').setAttribute('src', `<?=$SITE_URL?>files/banner/${JSONobj.photo}`)
+
                         if (JSONobj.status == 'success') {
                             var xhr2 = new XMLHttpRequest()
                             var formdata2 = new FormData()
@@ -246,8 +265,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                     let JSONobj2 = JSON.parse(xhr2.response)
                                     if (JSONobj2.is_processed == 1) {
                                         clearInterval(proccess)
-                                        document.querySelector('#process-label2').textContent = 'Обработка завершена'
+                                        document.querySelector('#process-label').style.display = 'none';
+                                        document.querySelector('#process-label2').textContent = 'Обработка завершена';
+                                        document.querySelector('#process-label2').style.color = '#52C78F';
 
+                                        document.getElementById('photo_res').setAttribute('src', `<?=$SITE_URL?>files/banner/photo/${JSONobj2.photo_res}`)
                                         document.getElementById('result').style.display = 'block';
                                     }
                                 }

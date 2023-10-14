@@ -274,7 +274,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
                                     let JSONobj2 = JSON.parse(xhr2.response)
                                     if (JSONobj2.is_processed == 1) {
                                         clearInterval(proccess)
-
+                                        document.querySelector('#process-label').style.display = 'none';
                                         document.querySelector('#process-label2').textContent = 'Обработка завершена';
                                         document.querySelector('#process-label2').style.color = '#52C78F';
 

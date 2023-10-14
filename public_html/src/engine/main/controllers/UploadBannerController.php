@@ -63,7 +63,9 @@ class UploadBannerController extends BaseController
                     'photo' => $fileName,
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
-                    'is_processed' => 0
+                    'is_processed' => 0,
+                    'style' => $_REQUEST['style'],
+                    'type' => $_REQUEST['type'],
                 ]
             ]);
 
@@ -71,7 +73,8 @@ class UploadBannerController extends BaseController
             http_response_code(200);
             $result = [
                 "id" => $idNewVideo + 1,
-                "status" => 'success'
+                "status" => 'success',
+                'photo' => $fileName,
             ];
             echo json_encode($result);
 
@@ -114,7 +117,7 @@ class UploadBannerController extends BaseController
     {
         if(!$this->model) $this->model = MainModel::getInstance();
         $profileDb = $this->model->read('upload_banner', [
-           'fields' => ['id', 'video'],
+           'fields' => ['id'],
            'where' => ['id' => $_REQUEST['upload_id']]
         ]);
         if (empty($profileDb)) {
@@ -123,18 +126,21 @@ class UploadBannerController extends BaseController
             exit();
         }
 
-        $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
         if (!in_array($ext, $this->_format)) {
             http_response_code(400);
             echo "Не подходящий формат файла";
             exit();
         }
 
-        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/banner/" . $profileDb[0]['video'];
-        if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        $fileName = 'res_' . random_int(1, 1000000) . '.' . $ext;
+        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/banner/photo/" . $fileName;
+        if (move_uploaded_file($_FILES['photo']["tmp_name"], $targetPath)) {
             $this->model->update('upload_banner', [
                 'fields' => [
                     'is_processed' => 1,
+                    'photo_res' => $fileName,
                 ],
                 'where' => ['id' => $profileDb[0]['id']]
             ]);
@@ -154,15 +160,6 @@ class UploadBannerController extends BaseController
      */
     public function checkBanner(): void
     {
-        //sleep(5);
-        http_response_code(200);
-        $result = [
-            'is_processed' => 1,
-            'photo' => 123,
-        ];
-        echo json_encode($result);
-        exit();
-
         if (empty($_REQUEST['id'])) {
             http_response_code(400);
             echo "Error 400";
@@ -171,7 +168,7 @@ class UploadBannerController extends BaseController
 
         if(!$this->model) $this->model = MainModel::getInstance();
         $profileDb = $this->model->read('upload_banner', [
-            'fields' => ['id', 'is_processed', 'video'],
+            'fields' => ['id', 'is_processed', 'photo', 'photo_res'],
             'where' => ['id' => $_REQUEST['id']]
         ]);
 
@@ -185,7 +182,7 @@ class UploadBannerController extends BaseController
             http_response_code(200);
             $result = [
                 'is_processed' => 1,
-                'photo' => $profileDb[0]['photo'],
+                'photo_res' => $profileDb[0]['photo_res'],
             ];
             echo json_encode($result);
         } else {

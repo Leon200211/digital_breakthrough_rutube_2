@@ -13,13 +13,18 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
             <?php foreach ($this->data as $banner): ?>
         <div class="video">
-            <div>Фото профиля</div>
-            <img style="max-width: 400px; max-height: 150px;" src="/templates/default/assets/img/<?=$banner['photo']?>">
+            <div>Исходное фото</div>
+            <img style="max-width: 400px; max-height: 150px;" src="/files/banner/<?=$banner['photo']?>">
+            <div>Фото после обработки</div>
+            <img style="max-width: 400px; max-height: 150px;" src="/files/banner/photo/<?=$banner['photo_res']?>">
             <div>
                 Название: <?=$banner['name']?>
             </div>
             <div>
                 Описание: <?=$banner['description']?>
+            </div>
+            <div>
+                Стиль: <?=$banner['style']?>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                 <div>

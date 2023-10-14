@@ -75,6 +75,10 @@ if ($_SERVER['REQUEST_URI'] == '/upload/banner/history') {
     echo $uploadVideo->outputData();
     exit();
 }
+if ($_SERVER['REQUEST_URI'] == '/loadBanner') {
+    $uploadVideo = new \engine\main\controllers\UploadBannerController();
+    $uploadVideo->uploadBannerFromApi();
+}
 if ($_SERVER['REQUEST_URI'] == '/checkBanner') {
     $uploadVideo = new \engine\main\controllers\UploadBannerController();
     $uploadVideo->checkBanner();
