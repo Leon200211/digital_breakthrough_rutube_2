@@ -81,6 +81,9 @@ class UploadPageController extends BaseController
             $curl = curl_init();
             $aPost = array(
                 'upload_id' => $idNewVideo + 1,
+                'name' => $_REQUEST['name'],
+                'description' => $_REQUEST['description'],
+                'style' => $_REQUEST['style'],
             );
             if ((version_compare(PHP_VERSION, '5.5') >= 0)) {
                 $aPost['file'] = new \CURLFile($targetPath);
@@ -131,13 +134,16 @@ class UploadPageController extends BaseController
             exit();
         }
 
-        $targetPathPhoto = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/photo/" . $_FILES['photo']["name"];
+
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        $fileName = 'res_' . random_int(1, 1000000) . '.' . $ext;
+        $targetPathPhoto = $_SERVER['DOCUMENT_ROOT'] . "/files/uploads/photo/" . $fileName;
 
         if (move_uploaded_file($_FILES['photo']["tmp_name"], $targetPathPhoto)) {
             $this->model->update('upload_video', [
                 'fields' => [
                     'is_processed' => 1,
-                    'thumbnail' => $_FILES['photo']["name"],
+                    'thumbnail' => $fileName,
                 ],
                 'where' => ['id' => $videoDb[0]['id']]
             ]);

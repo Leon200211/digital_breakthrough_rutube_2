@@ -54,6 +54,10 @@ if ($_SERVER['REQUEST_URI'] == '/upload/profile/history') {
     echo $uploadVideo->outputData();
     exit();
 }
+if ($_SERVER['REQUEST_URI'] == '/loadProfile') {
+    $uploadVideo = new \engine\main\controllers\UploadProfileController();
+    $uploadVideo->uploadProfileFromApi();
+}
 if ($_SERVER['REQUEST_URI'] == '/checkProfile') {
     $uploadVideo = new \engine\main\controllers\UploadProfileController();
     $uploadVideo->checkProfile();

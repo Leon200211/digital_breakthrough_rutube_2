@@ -63,7 +63,9 @@ class UploadProfileController extends BaseController
                     'photo' => $fileName,
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
-                    'is_processed' => 0
+                    'is_processed' => 0,
+                    'style' => $_REQUEST['style'],
+                    'type' => $_REQUEST['type'],
                 ]
             ]);
 
@@ -71,15 +73,18 @@ class UploadProfileController extends BaseController
             http_response_code(200);
             $result = [
                 "id" => $idNewVideo + 1,
-                "status" => 'success'
+                "status" => 'success',
+                'photo' => $fileName
             ];
             echo json_encode($result);
 
             $curl = curl_init();
             $aPost = array(
                 'upload_id' => $idNewVideo + 1,
-                'quality_upgrade' => $_REQUEST['quality'] === 'true' ? 1 : 0,
-                'generate_comments' => $_REQUEST['commentary'] === 'true' ? 1 : 0,
+                'name' => $_REQUEST['name'],
+                'description' => $_REQUEST['description'],
+                'style' => $_REQUEST['style'],
+                'type' => $_REQUEST['type'],
             );
             if ((version_compare(PHP_VERSION, '5.5') >= 0)) {
                 $aPost['file'] = new \CURLFile($targetPath);
@@ -114,7 +119,7 @@ class UploadProfileController extends BaseController
     {
         if(!$this->model) $this->model = MainModel::getInstance();
         $profileDb = $this->model->read('upload_profile', [
-           'fields' => ['id', 'video'],
+           'fields' => ['id', 'photo'],
            'where' => ['id' => $_REQUEST['upload_id']]
         ]);
         if (empty($profileDb)) {
@@ -123,18 +128,21 @@ class UploadProfileController extends BaseController
             exit();
         }
 
-        $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
         if (!in_array($ext, $this->_format)) {
             http_response_code(400);
             echo "Не подходящий формат файла";
             exit();
         }
 
-        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/profile/" . $profileDb[0]['video'];
-        if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
+        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        $fileName = 'res_' . random_int(1, 1000000) . '.' . $ext;
+        $targetPath = $_SERVER['DOCUMENT_ROOT'] . "/files/profile/photo/" . $fileName;
+        if (move_uploaded_file($_FILES['photo']["tmp_name"], $targetPath)) {
             $this->model->update('upload_profile', [
                 'fields' => [
                     'is_processed' => 1,
+                    'photo_res' => $fileName,
                 ],
                 'where' => ['id' => $profileDb[0]['id']]
             ]);
@@ -154,15 +162,6 @@ class UploadProfileController extends BaseController
      */
     public function checkProfile(): void
     {
-        //sleep(5);
-        http_response_code(200);
-        $result = [
-            'is_processed' => 1,
-            'photo' => 123,
-        ];
-        echo json_encode($result);
-        exit();
-
         if (empty($_REQUEST['id'])) {
             http_response_code(400);
             echo "Error 400";
@@ -171,7 +170,7 @@ class UploadProfileController extends BaseController
 
         if(!$this->model) $this->model = MainModel::getInstance();
         $profileDb = $this->model->read('upload_profile', [
-            'fields' => ['id', 'is_processed', 'video'],
+            'fields' => ['id', 'is_processed', 'photo', 'photo_res'],
             'where' => ['id' => $_REQUEST['id']]
         ]);
 
@@ -186,6 +185,7 @@ class UploadProfileController extends BaseController
             $result = [
                 'is_processed' => 1,
                 'photo' => $profileDb[0]['photo'],
+                'photo_res' => $profileDb[0]['photo_res'],
             ];
             echo json_encode($result);
         } else {

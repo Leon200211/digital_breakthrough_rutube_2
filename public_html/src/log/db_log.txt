@@ -1018,3 +1018,27 @@ Fault: 14-10-2023 8:57:02 - Ошибка в SQL запросе: UPDATE upload_vi
 file/var/www/html/engine/base/models/BaseModel.php
  In line 73
 
+Fault: 14-10-2023 9:24:19 - Ошибка в SQL запросе: INSERT INTO upload_profile (`photo`,`name`,`description`,`is_processed`,`style`,`type`) VALUE ('test_164272.jpg','fdg','dfgfdg','0','Colors [Tabi Style LoRA]','1') - 1054 Unknown column 'style' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 9:24:57 - Ошибка в SQL запросе: INSERT INTO upload_profile (`photo`,`name`,`description`,`is_processed`,`style`,`type`) VALUE ('test_21741.jpg','kjljkljkl','kjh','0','Colors [Tabi Style LoRA]','1') - 1054 Unknown column 'style' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 9:34:10 - Ошибка в SQL запросе: UPDATE upload_profile SET is_processed='1',photo_res='hyperpc-wallpaper-4K.jpg' WHERE id='4'  - 1054 Unknown column 'photo_res' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 9:34:29 - Ошибка в SQL запросе: UPDATE upload_profile SET is_processed='1',photo_res='hyperpc-wallpaper-4K.jpg' WHERE id='4'  - 1054 Unknown column 'photo_res' in 'field list'
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 9:35:28 - Ошибка в SQL запросе: INSERT INTO upload_profile (`photo`,`name`,`description`,`is_processed`,`style`,`type`) VALUE ('test_905687.jpg','cb','bvccvb','0','BouquetLatin|花束设计','2') - 1364 Field 'photo_res' doesn't have a default value
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+
+Fault: 14-10-2023 9:35:47 - Ошибка в SQL запросе: INSERT INTO upload_profile (`photo`,`name`,`description`,`is_processed`,`style`,`type`) VALUE ('test_721887.jpg','hjk','kjh','0','BouquetLatin|花束设计','2') - 1364 Field 'photo_res' doesn't have a default value
+file/var/www/html/engine/base/models/BaseModel.php
+ In line 73
+

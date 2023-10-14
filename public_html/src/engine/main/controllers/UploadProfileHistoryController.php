@@ -16,7 +16,7 @@ class UploadProfileHistoryController extends BaseController
         if(!$this->model) $this->model = MainModel::getInstance();
 
         $this->data = $this->model->read('upload_profile', [
-            'fields' => ['id', 'photo', 'name', 'description', 'is_processed']
+            'fields' => ['id', 'photo', 'photo_res', 'style', 'name', 'description', 'is_processed']
         ]);
 
     }

@@ -13,13 +13,18 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/templates/default/include/header.php'
 
             <?php foreach ($this->data as $profile): ?>
         <div class="video">
-            <div>Фото профиля</div>
-            <img style="max-width: 400px; max-height: 150px;" src="/templates/default/assets/img/<?=$profile['photo']?>">
+            <div>Исходное фото</div>
+            <img style="max-width: 400px; max-height: 150px;" src="/files/profile/<?=$profile['photo']?>">
+            <div>Фото после обработки</div>
+            <img style="max-width: 400px; max-height: 150px;" src="/files/profile/photo/<?=$profile['photo_res']?>">
             <div>
                 Название: <?=$profile['name']?>
             </div>
             <div>
                 Описание: <?=$profile['description']?>
+            </div>
+            <div>
+                Стиль: <?=$profile['style']?>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                 <div>
