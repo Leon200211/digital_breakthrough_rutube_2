@@ -85,6 +85,7 @@ class UploadProfileController extends BaseController
                 'description' => $_REQUEST['description'],
                 'style' => $_REQUEST['style'],
                 'type' => $_REQUEST['type'],
+                'draw_photo' => $_REQUEST['draw_photo'],
             );
             if ((version_compare(PHP_VERSION, '5.5') >= 0)) {
                 $aPost['file'] = new \CURLFile($targetPath);
