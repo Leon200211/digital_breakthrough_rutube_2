@@ -74,7 +74,8 @@ class UploadBannerController extends BaseController
             $result = [
                 "id" => $idNewVideo + 1,
                 "status" => 'success',
-                'photo' => $fileName,
+                //'photo' => $fileName,
+                'photo' => 'test_1.jpg',
             ];
             echo json_encode($result);
 
@@ -143,7 +144,7 @@ class UploadBannerController extends BaseController
             $this->model->update('upload_banner', [
                 'fields' => [
                     'is_processed' => 1,
-                    'photo_res' => $fileName,
+                    'photo_res' => 'res_1.jpg',
                 ],
                 'where' => ['id' => $profileDb[0]['id']]
             ]);

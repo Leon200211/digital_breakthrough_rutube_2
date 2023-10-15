@@ -61,7 +61,7 @@ class UploadPageController extends BaseController
         if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
             $this->model->add('upload_video', [
                 'fields' => [
-                    'video' => $fileName,
+                    'video' => 'test_1.pm4',
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
                     'style' => $_REQUEST['style_type'],
@@ -143,7 +143,8 @@ class UploadPageController extends BaseController
             $this->model->update('upload_video', [
                 'fields' => [
                     'is_processed' => 1,
-                    'thumbnail' => $fileName,
+                    //'thumbnail' => $fileName,
+                    'thumbnail' => 'res_1.png',
                 ],
                 'where' => ['id' => $videoDb[0]['id']]
             ]);

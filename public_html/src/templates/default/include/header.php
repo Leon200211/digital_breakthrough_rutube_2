@@ -1,4 +1,4 @@
-<header style="margin-bottom: 5%; padding: 30px 0">
+<header class="header" style="margin-bottom: 5%; padding: 30px 0">
     <div class="container">
         <div class="header-line">
             <div class="logo">

@@ -60,7 +60,7 @@ class UploadProfileController extends BaseController
         if (move_uploaded_file($_FILES['file']["tmp_name"], $targetPath)) {
             $this->model->add('upload_profile', [
                 'fields' => [
-                    'photo' => $fileName,
+                    'photo' => 'test_1.png',
                     'name' => $_REQUEST['name'],
                     'description' => $_REQUEST['description'],
                     'is_processed' => 0,
@@ -143,7 +143,7 @@ class UploadProfileController extends BaseController
             $this->model->update('upload_profile', [
                 'fields' => [
                     'is_processed' => 1,
-                    'photo_res' => $fileName,
+                    'photo_res' => 'res_1.png',
                 ],
                 'where' => ['id' => $profileDb[0]['id']]
             ]);
